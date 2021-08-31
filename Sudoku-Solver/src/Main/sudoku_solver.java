@@ -34,22 +34,35 @@ public class sudoku_solver {
 	}
 	
 	public static boolean solve(int[][]a) {
-
+		boolean flag = true;
+		int row  = -1, col = -1;
+		
 		for(int i = 0; i < a.length;i++) {
 			for(int j = 0 ; j < a.length; j++) {
 				if(a[i][j]==0) {
+					row = i;
+					col = j;
+					flag = false;
+					break;
+				}
+			}
+			if(!flag)
+				break;
+		}
+		if(flag) {
+			return true;
+		}
+		
 				for( int val = 1 ; val < 10; val++) {
-					if(checkRow(a,i,val) && checkCol(a,j,val) && checkBox(a,i,j,val)) {
-						a[i][j] = val;
+					if(checkRow(a,row,val) && checkCol(a,col,val) && checkBox(a,row,col,val)) {
+						a[row][col] = val;
 						if(solve(a)) {
 							return true;
 						}
 						else {
-						a[i][j] = 0;
+						a[row][col] = 0;
 						}
-					}
-				}
-			}
+				
 		}
 			PrintArray.printArray(a);
 		}
